@@ -3,7 +3,7 @@ const Link = ({ href, children }: any) => {
     <a
       href={href}
       type="button"
-      className="border bg-gray-100 hover:bg-gray-200 transition-all"
+      className="border bg-gray-100 hover:bg-gray-200 transition-all p-2 rounded border border-black"
     >
       {children}
     </a>

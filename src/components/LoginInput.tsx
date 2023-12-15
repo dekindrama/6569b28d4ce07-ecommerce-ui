@@ -13,11 +13,12 @@ function LoginInput({ className, onLogin }: any) {
     <div className="flex flex-col max-w-md">
       <input
         className="border-black border-2"
-        type="text"
+        type="email"
         name="email"
         value={email}
         onChange={setEmail}
         placeholder="input email ..."
+        required
       />
       <input
         className="border border-black"
@@ -26,6 +27,7 @@ function LoginInput({ className, onLogin }: any) {
         value={password}
         onChange={setPassword}
         placeholder="input password..."
+        required
       />
       <Button onClick={onLoginHandler}>Login</Button>
     </div>

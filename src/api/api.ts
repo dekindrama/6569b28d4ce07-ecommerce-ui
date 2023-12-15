@@ -58,12 +58,37 @@ const api = (() => {
     return message;
   }
 
+  async function register({
+    name,
+    email,
+    password,
+    password_confirmation,
+    role,
+  }: any) {
+    const response = await axios.post(BASE_URL + "/register", {
+      name,
+      email,
+      password,
+      password_confirmation,
+      role,
+    });
+
+    const { status, message } = response.data;
+
+    if (status == false) {
+      throw new Error(message);
+    }
+
+    return message;
+  }
+
   return {
     login,
     putAccessToken,
     getAccessToken,
     getOwnProfile,
     logout,
+    register,
   };
 })();
 

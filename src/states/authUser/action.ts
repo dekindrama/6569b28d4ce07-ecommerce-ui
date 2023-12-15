@@ -24,12 +24,12 @@ function unsetAuthUserActionCreator() {
   };
 }
 
-function asyncSetAuthUser({ email, password }: any) {
+function asyncSetAuthUser(params: { email: string; password: string }) {
   return async (dispatch: any) => {
     dispatch(showLoading());
 
     try {
-      const token = await api.login({ email, password });
+      const token = await api.login(params);
       api.putAccessToken(token);
 
       const authUser = await api.getOwnProfile();
@@ -55,10 +55,34 @@ function asyncUnsetAuthUser() {
   };
 }
 
+function asyncRegisterUser(params: {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  role: string;
+}) {
+  return async (dispatch: any) => {
+    dispatch(showLoading());
+
+    try {
+      await api.register(params);
+    } catch (error: any) {
+      alert(error.message);
+    }
+
+    dispatch(hideLoading());
+  };
+}
+
 export {
+  //* state actions
   ActionType,
   setAuthUserActionCreator,
   unsetAuthUserActionCreator,
+
+  //* thunk function
   asyncSetAuthUser,
   asyncUnsetAuthUser,
+  asyncRegisterUser,
 };
