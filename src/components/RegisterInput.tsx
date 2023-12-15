@@ -9,10 +9,14 @@ const RegisterInput = ({ onRegister }: any) => {
   const [passwordConfirmation, setPasswordConfirmation] = useInput("");
   const [role, setRole] = useInput("");
 
+  function onRegisterHandler() {
+    onRegister({ name, email, password, passwordConfirmation, role });
+  }
+
   return (
-    <div className="flex flex-col max-w-md">
+    <div className="flex max-w-md flex-col">
       <input
-        className="border-black border-2"
+        className="border-2 border-black"
         type="text"
         name="name"
         value={name}
@@ -21,7 +25,7 @@ const RegisterInput = ({ onRegister }: any) => {
         required
       />
       <input
-        className="border-black border-2"
+        className="border-2 border-black"
         type="email"
         name="email"
         value={email}
@@ -60,7 +64,7 @@ const RegisterInput = ({ onRegister }: any) => {
         <option value="SUPER_ADMIN">Super Admin</option>
       </select>
 
-      <Button onClick={onRegister}>Register</Button>
+      <Button onClick={onRegisterHandler}>Register</Button>
     </div>
   );
 };

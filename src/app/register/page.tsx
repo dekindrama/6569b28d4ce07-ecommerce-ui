@@ -3,6 +3,7 @@
 import BaseTemplate from "@/components/BaseTemplate";
 import RegisterInput from "@/components/RegisterInput";
 import authUserRolesEnum from "@/enums/authUserRolesEnum";
+import { asyncRegisterUser } from "@/states/authUser/action";
 import { asyncPreloadProcess } from "@/states/isPreload/action";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -61,8 +62,14 @@ const RegisterPage = () => {
     return;
   }
 
-  const onRegisterHandler = (params: any) => {
-    console.log("hit on register handler");
+  const onRegisterHandler = (params: {
+    name: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
+    role: string;
+  }) => {
+    dispatch(asyncRegisterUser(params));
   };
 
   return (

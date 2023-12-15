@@ -59,7 +59,7 @@ function asyncRegisterUser(params: {
   name: string;
   email: string;
   password: string;
-  password_confirmation: string;
+  passwordConfirmation: string;
   role: string;
 }) {
   return async (dispatch: any) => {
@@ -67,6 +67,7 @@ function asyncRegisterUser(params: {
 
     try {
       await api.register(params);
+      alert("success register new admin");
     } catch (error: any) {
       alert(error.message);
     }
