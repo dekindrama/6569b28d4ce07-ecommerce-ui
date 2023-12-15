@@ -1,6 +1,6 @@
-const authUserRoles = {
+const authUserRolesEnum = {
   admin: "ADMIN",
   superAdmin: "SUPER_ADMIN",
 };
 
-export default authUserRoles;
+export default authUserRolesEnum;

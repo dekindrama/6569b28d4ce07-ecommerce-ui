@@ -3,7 +3,7 @@ const Button = ({ onClick, children }: any) => {
     <button
       type="button"
       onClick={onClick}
-      className="border bg-gray-100 hover:bg-gray-200 transition-all p-2 rounded border border-black"
+      className="rounded border border-black bg-gray-100 p-2 text-center transition-all hover:bg-gray-200"
     >
       {children}
     </button>

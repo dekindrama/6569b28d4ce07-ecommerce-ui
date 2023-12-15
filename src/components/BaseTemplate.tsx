@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "./Button";
 import Link from "./Link";
 import { LoadingBar } from "react-redux-loading-bar";
+import authUserRolesEnum from "@/enums/authUserRolesEnum";
 
 const BaseTemplate = ({ children }: any) => {
   //* params
@@ -14,25 +15,31 @@ const BaseTemplate = ({ children }: any) => {
     dispatch(asyncUnsetAuthUser());
   };
 
+  //* navigation
+  let nav = <></>;
+  if (authUser) {
+    if (authUser.role == authUserRolesEnum.superAdmin) {
+      nav = (
+        <div className="flex gap-5 overflow-scroll p-5">
+          <div>
+            <Link href="/register">Register Admin</Link>
+          </div>
+          <div>
+            <Link href="/users">Admin List</Link>
+          </div>
+        </div>
+      );
+    }
+  }
+
   //* render component
   return (
     <div>
-      <div className="flex flex-col justify-between gap-5 bg-blue-50 p-5 md:flex-row md:gap-0">
+      <div className="flex flex-col justify-between gap-5 bg-blue-50 p-5 md:flex-row md:items-center md:gap-0">
         <h1 className="text-2xl font-bold">Logo</h1>
         {authUser ? (
           <div className=" flex items-center justify-center gap-5 text-center">
             <div>{authUser.name}</div>
-            <div>
-              <Link href="/register">
-                <span>
-                  Register
-                  <br />
-                  New
-                  <br />
-                  Admin
-                </span>
-              </Link>
-            </div>
             <div>
               <Button onClick={onLogoutHandler}>Logout</Button>
             </div>
@@ -43,6 +50,7 @@ const BaseTemplate = ({ children }: any) => {
           </div>
         )}
       </div>
+      {nav}
       <LoadingBar />
       {children}
     </div>

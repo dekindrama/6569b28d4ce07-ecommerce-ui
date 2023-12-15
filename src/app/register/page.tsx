@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 const RegisterPage = () => {
   //* params
-  const [count, setCount] = useState(0);
   const router = useRouter();
   const dispatch: any = useDispatch();
   const authUser = useSelector((states: any) => states.authUser);
@@ -23,21 +22,15 @@ const RegisterPage = () => {
 
   //* do preload action
   useEffect(() => {
-    console.log("useEffect isPreload");
-
     //* do action preload when preload is false
     if (isPreload) {
       dispatch(asyncPreloadProcess());
-      console.log("do preload");
     } else {
-      console.log("already preload");
     }
   }, [isPreload]);
 
   //* check user is logged in
   useEffect(() => {
-    console.log("useEffect authUser");
-
     //* waiting until process is preload done
     if (isPreload) {
       return;
@@ -45,16 +38,10 @@ const RegisterPage = () => {
 
     //* check auth user logged in
     if (authUser) {
-      console.log("authUser is found");
-
-      if (authUser.role == authUserRolesEnum.superAdmin) {
-        console.log("super admin is logged");
-      } else {
-        console.log("admin is logged");
+      if (authUser.role !== authUserRolesEnum.superAdmin) {
+        router.push("/error/unauthorized");
       }
     } else {
-      console.log("authUser is not found");
-
       router.push("/login");
     }
   }, [authUser]);
@@ -69,14 +56,17 @@ const RegisterPage = () => {
     return;
   }
 
+  //* return nothing when login as admin
+  if (authUser && authUser.role !== authUserRolesEnum.superAdmin) {
+    return;
+  }
+
   const onRegisterHandler = (params: any) => {
     console.log("hit on register handler");
-    setCount((value) => value + 1);
   };
 
   return (
     <BaseTemplate>
-      <div>{count}</div>
       <h1>register page</h1>
       <RegisterInput onRegister={onRegisterHandler} />
     </BaseTemplate>

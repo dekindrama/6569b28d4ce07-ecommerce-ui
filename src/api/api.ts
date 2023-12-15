@@ -82,6 +82,18 @@ const api = (() => {
     return message;
   }
 
+  async function getListUsers() {
+    const response = await axios.get(BASE_URL + "/users", configs());
+
+    const { status, message, data } = response.data;
+
+    if (status == false) {
+      throw new Error(message);
+    }
+
+    return data.users;
+  }
+
   return {
     login,
     putAccessToken,
@@ -89,6 +101,7 @@ const api = (() => {
     getOwnProfile,
     logout,
     register,
+    getListUsers,
   };
 })();
 
