@@ -3,6 +3,8 @@ import authUserReducer from "./authUser/reducer";
 import { loadingBarReducer } from "react-redux-loading-bar";
 import isPreloadReducer from "./isPreload/reducer";
 import usersReducer from "./users/reducer";
+import itemReducer from "./item/reducer";
+import itemsReducer from "./items/reducer";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ const store = configureStore({
     loadingBar: loadingBarReducer,
     isPreload: isPreloadReducer,
     users: usersReducer,
+    item: itemReducer,
+    items: itemsReducer,
   },
 });
 

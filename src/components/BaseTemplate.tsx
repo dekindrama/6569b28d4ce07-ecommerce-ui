@@ -27,6 +27,9 @@ const BaseTemplate = ({ children }: any) => {
           <div>
             <Link href="/users">Admin List</Link>
           </div>
+          <div>
+            <Link href="/items">Item List</Link>
+          </div>
         </div>
       );
     }

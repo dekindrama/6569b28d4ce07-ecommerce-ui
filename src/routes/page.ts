@@ -4,6 +4,7 @@ const routes = {
   register: "/register",
   error: {
     unauthorized: "/error/unauthorized",
+    unauthenticated: "/error/unauthenticated",
   },
 };
 

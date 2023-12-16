@@ -1,4 +1,6 @@
 import axios from "axios";
+import itemApi from "./itemApi";
+import { config } from "process";
 
 const api = (() => {
   //* config
@@ -136,6 +138,8 @@ const api = (() => {
     }
   }
 
+  const itemApiFunctions = itemApi(BASE_URL, configs);
+
   return {
     login,
     putAccessToken,
@@ -144,6 +148,8 @@ const api = (() => {
     logout,
     register,
     getListUsers,
+
+    ...itemApiFunctions,
   };
 })();
 
