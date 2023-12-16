@@ -1,0 +1,2 @@
+change all route to using routes package
+make route for dashboard and public user
