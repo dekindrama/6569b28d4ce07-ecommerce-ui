@@ -52,7 +52,6 @@ const UsersPage = () => {
     //* validate role user
     if (authUser.role !== authUserRolesEnum.superAdmin) return;
 
-    console.log("hit useeffect async user");
     dispatch(asyncPopulateUsers());
   }, [isPreload, authUser]);
 
@@ -67,15 +66,24 @@ const UsersPage = () => {
     if (authUser.role !== authUserRolesEnum.superAdmin) return;
   }
 
-  const usersComponent = users.map((user: any) => {
-    return (
-      <tr key={user.id}>
-        <td className="border border-black p-5">{user.id}</td>
-        <td className="border border-black p-5">{user.name}</td>
-        <td className="border border-black p-5">{user.email}</td>
-      </tr>
-    );
-  });
+  let usersComponent = (
+    <tr>
+      <td className="border border-black p-5 text-center" colSpan={3}>
+        data empty
+      </td>
+    </tr>
+  );
+  if (users.length > 0) {
+    usersComponent = users.map((user: any) => {
+      return (
+        <tr key={user.id}>
+          <td className="border border-black p-5">{user.id}</td>
+          <td className="border border-black p-5">{user.name}</td>
+          <td className="border border-black p-5">{user.email}</td>
+        </tr>
+      );
+    });
+  }
 
   //* render page
   return (
@@ -90,17 +98,7 @@ const UsersPage = () => {
               <th className="border border-black p-5">email</th>
             </tr>
           </thead>
-          <tbody>
-            {users.length > 0 ? (
-              usersComponent
-            ) : (
-              <tr>
-                <td className="border border-black p-5 text-center" colSpan={3}>
-                  data empty
-                </td>
-              </tr>
-            )}
-          </tbody>
+          <tbody>{usersComponent}</tbody>
         </table>
       </div>
     </BaseTemplate>
