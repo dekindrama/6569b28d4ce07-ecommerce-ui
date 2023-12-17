@@ -4,6 +4,8 @@ import Button from "./Button";
 import Link from "./Link";
 import { LoadingBar } from "react-redux-loading-bar";
 import authUserRolesEnum from "@/enums/authUserRolesEnum";
+import Logo from "./Logo";
+import routes from "@/routes/page";
 
 const BaseTemplate = ({ children }: any) => {
   //* params
@@ -22,13 +24,13 @@ const BaseTemplate = ({ children }: any) => {
       nav = (
         <div className="flex gap-5 overflow-scroll p-5">
           <div>
-            <Link href="/register">Register Admin</Link>
+            <Link href={routes.dashboard.register}>Register Admin</Link>
           </div>
           <div>
-            <Link href="/users">Admin List</Link>
+            <Link href={routes.dashboard.users}>Admin List</Link>
           </div>
           <div>
-            <Link href="/items">Item List</Link>
+            <Link href={routes.dashboard.items.index}>Item List</Link>
           </div>
         </div>
       );
@@ -39,7 +41,10 @@ const BaseTemplate = ({ children }: any) => {
   return (
     <div>
       <div className="flex flex-col justify-between gap-5 bg-blue-50 p-5 md:flex-row md:items-center md:gap-0">
-        <h1 className="text-2xl font-bold">Logo</h1>
+        <div className="flex">
+          <Logo />
+          dashboard
+        </div>
         {authUser ? (
           <div className=" flex items-center justify-center gap-5 text-center">
             <div>{authUser.name}</div>
@@ -49,7 +54,7 @@ const BaseTemplate = ({ children }: any) => {
           </div>
         ) : (
           <div>
-            <Link href="/login">Login</Link>
+            <Link href={routes.login}>Login</Link>
           </div>
         )}
       </div>

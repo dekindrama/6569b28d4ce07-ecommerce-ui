@@ -40,6 +40,47 @@ function asyncStoreItem(params: {
   };
 }
 
+function asyncGetItem(id: string) {
+  return async (dispatch: any) => {
+    try {
+      const item = await api.getItem(id);
+      dispatch(setItemActionCreator(item));
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+}
+
+function asyncDeleteItem(id: string) {
+  return async (dispatch: any) => {
+    try {
+      const { message } = await api.deleteItem(id);
+      dispatch(unsetItemActionCreator());
+      alert(message);
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+}
+
+function asyncUpdateItem(params: {
+  id: string;
+  name: string;
+  stock: number;
+  picture: Blob;
+  unit: string;
+  unitPrice: number;
+}) {
+  return async (dispatch: any) => {
+    try {
+      const { message } = await api.updateItem(params);
+      alert(message);
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+}
+
 export {
   //* state actions
   ActionType,
@@ -48,4 +89,7 @@ export {
 
   //* thunk function
   asyncStoreItem,
+  asyncGetItem,
+  asyncUpdateItem,
+  asyncDeleteItem,
 };

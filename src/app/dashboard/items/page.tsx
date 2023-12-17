@@ -8,6 +8,7 @@ import { asyncGetListItems } from "@/states/items/action";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import routes from "@/routes/page";
 
 const ItemsPage = () => {
   //* params
@@ -91,7 +92,7 @@ const ItemsPage = () => {
       <div className="flex flex-col gap-5 py-10 md:py-20">
         <h1>ItemPage</h1>
         <div>
-          <Link href="/items/create">Add Items</Link>
+          <Link href={routes.dashboard.items.create}>Add Items</Link>
         </div>
         <div className="w-96 self-center overflow-scroll md:w-1/2">
           <table className="w-full">

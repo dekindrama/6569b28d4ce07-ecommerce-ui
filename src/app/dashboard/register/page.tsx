@@ -3,6 +3,7 @@
 import BaseTemplate from "@/components/BaseTemplate";
 import RegisterInput from "@/components/RegisterInput";
 import authUserRolesEnum from "@/enums/authUserRolesEnum";
+import routes from "@/routes/page";
 import { asyncRegisterUser } from "@/states/authUser/action";
 import { asyncPreloadProcess } from "@/states/isPreload/action";
 import { useRouter } from "next/navigation";
@@ -40,10 +41,10 @@ const RegisterPage = () => {
     //* check auth user logged in
     if (authUser) {
       if (authUser.role !== authUserRolesEnum.superAdmin) {
-        router.push("/error/unauthorized");
+        router.push(routes.error.unauthorized);
       }
     } else {
-      router.push("/login");
+      router.push(routes.login);
     }
   }, [authUser]);
 

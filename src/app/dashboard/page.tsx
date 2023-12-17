@@ -1,15 +1,12 @@
 "use client";
-
-import BaseTemplatePublic from "@/components/BaseTemplatePublic";
-import LoginInput from "@/components/LoginInput";
+import BaseTemplate from "@/components/BaseTemplate";
 import routes from "@/routes/page";
-import { asyncSetAuthUser } from "@/states/authUser/action";
 import { asyncPreloadProcess } from "@/states/isPreload/action";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const LoginPage = () => {
+export default function DashboardPage() {
   //* params
   const dispatch: any = useDispatch();
   const router = useRouter();
@@ -17,7 +14,7 @@ const LoginPage = () => {
   const isPreload = useSelector((states: any) => states.isPreload);
 
   console.log("=============================");
-  console.log("hit login page");
+  console.log("hit dashboard page");
   console.log("authUser", authUser);
   console.log("preload", isPreload);
 
@@ -41,9 +38,9 @@ const LoginPage = () => {
       return;
     }
 
-    //* redirect to index when already login
-    if (authUser) {
-      router.push(routes.dashboard.index);
+    //* redirect when is null
+    if (authUser == null) {
+      router.push(routes.login);
     }
   });
 
@@ -52,26 +49,15 @@ const LoginPage = () => {
     return;
   }
 
-  //* return nothing when user is login
-  if (authUser) {
+  //* return nothing when unauthenticated
+  if (authUser == null) {
     return;
   }
 
-  //* handle login
-  const onLoginHandler = async (params: {
-    email: string;
-    password: string;
-  }) => {
-    dispatch(asyncSetAuthUser(params));
-  };
-
   //* render page
   return (
-    <BaseTemplatePublic>
-      <h1 className="font-bold">Login Page</h1>
-      <LoginInput onLogin={onLoginHandler} />
-    </BaseTemplatePublic>
+    <BaseTemplate>
+      <h1 className="font-bold">Dashboard Page</h1>
+    </BaseTemplate>
   );
-};
-
-export default LoginPage;
+}
