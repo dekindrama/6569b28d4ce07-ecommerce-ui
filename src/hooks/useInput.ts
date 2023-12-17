@@ -2,10 +2,14 @@ import { useState } from "react";
 
 function useInput(defaultValue: any, target: string = "value") {
   const [value, setValue] = useState(defaultValue);
+  let handleValueReset = () => {
+    return setValue(defaultValue);
+  };
   let handleValueChange = null;
 
   if (target == "value") {
     handleValueChange = (event: any) => {
+      console.log(event);
       if (event == "") {
         return setValue(defaultValue);
       }
@@ -34,7 +38,7 @@ function useInput(defaultValue: any, target: string = "value") {
     };
   }
 
-  return [value, handleValueChange];
+  return [value, handleValueChange, handleValueReset];
 }
 
 export default useInput;

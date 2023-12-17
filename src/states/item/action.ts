@@ -1,4 +1,5 @@
 import api from "@/api/api";
+import { asyncGetListItems } from "../items/action";
 
 const ActionType = {
   SET_ITEM: "SET_ITEM",
@@ -56,6 +57,7 @@ function asyncDeleteItem(id: string) {
     try {
       const { message } = await api.deleteItem(id);
       dispatch(unsetItemActionCreator());
+      dispatch(asyncGetListItems());
       alert(message);
     } catch (error: any) {
       alert(error.message);
@@ -67,7 +69,7 @@ function asyncUpdateItem(params: {
   id: string;
   name: string;
   stock: number;
-  picture: Blob;
+  picture?: Blob;
   unit: string;
   unitPrice: number;
 }) {

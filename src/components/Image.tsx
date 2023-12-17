@@ -5,7 +5,7 @@ const Image = ({
 }: {
   src: string;
   alt: string;
-  className: string;
+  className?: string;
 }) => {
   return <img src={src} alt={alt} className={className} />;
 };

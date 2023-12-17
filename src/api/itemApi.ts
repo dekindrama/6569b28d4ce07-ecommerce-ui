@@ -38,13 +38,13 @@ function itemApi(baseUrl: string, configs: any) {
     id: string;
     name: string;
     stock: number;
-    picture: Blob;
+    picture?: Blob;
     unit: string;
     unitPrice: number;
   }) {
     try {
       //* params
-      const { id, name, stock, picture, unit, unitPrice } = params;
+      const { id, name, stock, picture = "", unit, unitPrice } = params;
       console.log("picture", name, picture);
       let form = new FormData();
       form.append("name", name);

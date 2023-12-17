@@ -1,25 +1,30 @@
 "use client";
 import BaseTemplate from "@/components/BaseTemplate";
-import CreateItemInput from "@/components/CreateItemInput";
+import UpdateItemInput from "@/components/UpdateItemInput";
 import authUserRolesEnum from "@/enums/authUserRolesEnum";
 import routes from "@/routes/page";
 import { asyncPreloadProcess } from "@/states/isPreload/action";
-import { asyncStoreItem } from "@/states/item/action";
-import { useRouter } from "next/navigation";
+import { asyncGetItem, asyncUpdateItem } from "@/states/item/action";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const CreateItemPage = () => {
+const UpdateItemPage = () => {
   //* params
   const router = useRouter();
+  const params = useParams();
+  const id = params.id.toString();
   const dispatch: any = useDispatch();
   const authUser = useSelector((states: any) => states.authUser);
   const isPreload = useSelector((states: any) => states.isPreload);
+  const item = useSelector((states: any) => states.item);
 
   console.log("=============================");
   console.log("hit update item page");
   console.log("authUser", authUser);
   console.log("preload", isPreload);
+  console.log("params", id);
+  console.log("item", item);
 
   //* do preload action
   useEffect(() => {
@@ -46,7 +51,14 @@ const CreateItemPage = () => {
     } else {
       router.push(routes.error.unauthenticated);
     }
-  });
+  }, [isPreload]);
+
+  //* load item
+  useEffect(() => {
+    if (isPreload) return;
+
+    dispatch(asyncGetItem(id));
+  }, [isPreload]);
 
   //* return nothing when still preload
   if (isPreload) return;
@@ -54,24 +66,29 @@ const CreateItemPage = () => {
   //* return nothing when unauthenticated
   if (authUser == null) return;
 
+  //* return nothing when item is null
+  if (item == null) return;
+
   //* create item handler
-  function onCreateHandler(params: {
+  function onUpdateHandler(params: {
+    id: string;
     name: string;
     stock: number;
-    picture: Blob;
+    picture?: Blob;
     unit: string;
     unitPrice: number;
   }) {
-    dispatch(asyncStoreItem(params));
+    dispatch(asyncUpdateItem(params));
+    router.push(routes.dashboard.items.index);
   }
 
   //* render page
   return (
     <BaseTemplate>
-      <h1>Create Item Page</h1>
-      <CreateItemInput onCreate={onCreateHandler} />
+      <h1>Update Item Page</h1>
+      <UpdateItemInput onUpdate={onUpdateHandler} item={item} />
     </BaseTemplate>
   );
 };
 
-export default CreateItemPage;
+export default UpdateItemPage;

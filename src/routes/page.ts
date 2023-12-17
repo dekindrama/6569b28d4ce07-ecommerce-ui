@@ -5,6 +5,7 @@ const routes = {
   error: {
     unauthorized: "/error/unauthorized",
     unauthenticated: "/error/unauthenticated",
+    notFound: "/error/not-found",
   },
 
   //* dashboard
@@ -15,6 +16,9 @@ const routes = {
     items: {
       index: "/dashboard/items",
       create: "/dashboard/items/create",
+      update: (id: string) => {
+        return `/dashboard/items/update/${id}`;
+      },
     },
   },
 };
