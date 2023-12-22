@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-gray-100">
+    <html lang="en" className="bg-gray-100 transition-all">
       <body className={comfortaa.className}>
         <Providers>{children}</Providers>
       </body>

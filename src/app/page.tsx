@@ -12,6 +12,8 @@ export default function HomePage() {
   //* params
   const dispatch: any = useDispatch();
   const items = useSelector((states: any) => states.items);
+  const filteredItems = useSelector((states: any) => states.filteredItems);
+  const isFilterItems = useSelector((states: any) => states.isFilterItems);
 
   //* load items
   useEffect(() => {
@@ -19,9 +21,24 @@ export default function HomePage() {
   }, []);
 
   //* render cards component
-  const itemsComponents = items.map((item: ItemInterface) => (
-    <Card key={item.id} item={item} onClickDetail={() => console.log("hit")} />
-  ));
+  let itemsComponents = <></>;
+  if (isFilterItems) {
+    itemsComponents = filteredItems.map((item: ItemInterface) => (
+      <Card
+        key={item.id}
+        item={item}
+        onClickDetail={() => console.log("hit")}
+      />
+    ));
+  } else {
+    itemsComponents = items.map((item: ItemInterface) => (
+      <Card
+        key={item.id}
+        item={item}
+        onClickDetail={() => console.log("hit")}
+      />
+    ));
+  }
 
   //* render page
   return (
@@ -31,6 +48,7 @@ export default function HomePage() {
           <h2 className="font-bold capitalize">Popular Products</h2>
         </div>
         <ItemsSlider items={items} />
+
         <div>
           <h2 className="font-bold capitalize">Products</h2>
           <small className="font-bold">

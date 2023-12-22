@@ -5,6 +5,8 @@ import isPreloadReducer from "./isPreload/reducer";
 import usersReducer from "./users/reducer";
 import itemReducer from "./item/reducer";
 import itemsReducer from "./items/reducer";
+import filteredItemsReducer from "./filteredItems/reducer";
+import isFilterItemsReducer from "./isFilterItems/reducer";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ const store = configureStore({
     users: usersReducer,
     item: itemReducer,
     items: itemsReducer,
+    filteredItems: filteredItemsReducer,
+    isFilterItems: isFilterItemsReducer,
   },
 });
 
