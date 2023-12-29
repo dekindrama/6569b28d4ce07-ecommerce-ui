@@ -68,8 +68,10 @@ const LoginPage = () => {
   //* render page
   return (
     <BaseTemplatePublic>
-      <h1 className="font-bold">Login Page</h1>
-      <LoginInput onLogin={onLoginHandler} />
+      <div className="flex min-h-screen w-full flex-col items-center justify-center ">
+        <h1 className="font-bold">Login Page</h1>
+        <LoginInput onLogin={onLoginHandler} />
+      </div>
     </BaseTemplatePublic>
   );
 };
