@@ -25,11 +25,16 @@ const SearchBar = ({
   const [keyword, setKeyword] = useInput("");
   const [minPrice, setMinPrice, resetMinPrice] = useInput(0);
   const [maxPrice, setMaxPrice, resetMaxPrice] = useInput(0);
-  const [stockStatus, setStockStatus] = useInput([]);
+  const [stockStatus, setStockStatus] = useInput("");
   const items = useSelector((states: any) => states.items);
   let itemPrices = items.map((item: ItemInterface) => item.unit_price);
   let minPriceItem = 0;
   let maxPriceItem = 0;
+  //* only update when itemPrices array is not empty
+  if (itemPrices.length > 0) {
+    minPriceItem = Math.min(...itemPrices);
+    maxPriceItem = Math.max(...itemPrices);
+  }
 
   //* set min/max price item
   useEffect(() => {
@@ -46,6 +51,7 @@ const SearchBar = ({
 
   //* handler filter
   function onFilterHandler() {
+    console.log(stockStatus);
     //* get original items
     let newItems = items;
 
@@ -54,7 +60,7 @@ const SearchBar = ({
 
     //* check if keyword is exist
     if (keyword !== "") {
-      newItems = items.filter((item: ItemInterface) => {
+      newItems = newItems.filter((item: ItemInterface) => {
         if (item.name.toLowerCase() == keyword.toLowerCase()) {
           return item;
         }
@@ -63,7 +69,7 @@ const SearchBar = ({
 
     //* check min max price is exist
     if (minPrice !== 0 && maxPrice !== 0) {
-      newItems = items.filter((item: ItemInterface) => {
+      newItems = newItems.filter((item: ItemInterface) => {
         if (item.unit_price >= minPrice && item.unit_price <= maxPrice) {
           return item;
         }
@@ -72,7 +78,7 @@ const SearchBar = ({
 
     //* check stock status is exist
     if (stockStatus.length > 0) {
-      newItems = items.filter((item: ItemInterface) => {
+      newItems = newItems.filter((item: ItemInterface) => {
         if (stockStatus.includes(item.status_stock.toString())) {
           return item;
         }
@@ -95,10 +101,20 @@ const SearchBar = ({
     dispatch(unsetIsFilterItemsActionCreator());
 
     //* reset value states
+    console.log(minPriceItem, maxPriceItem);
     setKeyword("");
-    setMinPrice(0);
-    setMaxPrice(0);
+    resetMinPrice(minPriceItem);
+    resetMaxPrice(maxPriceItem);
     setStockStatus([]);
+  }
+
+  //* trigger filter when hit key enter
+  function onKeyUpHandler(e: any) {
+    if (e.keyCode === 13) {
+      console.log("hit");
+      e.preventDefault();
+      onFilterHandler();
+    }
   }
 
   return (
@@ -120,6 +136,7 @@ const SearchBar = ({
               className="w-full rounded-xl border border-purple-500 p-5"
               value={keyword}
               onChange={setKeyword}
+              onKeyUp={onKeyUpHandler}
             />
           </div>
         </div>
@@ -135,6 +152,7 @@ const SearchBar = ({
               max={maxPriceItem}
               value={minPrice}
               onChange={setMinPrice}
+              onKeyUp={onKeyUpHandler}
             />
             <input
               type="number"
@@ -145,6 +163,7 @@ const SearchBar = ({
               max={maxPriceItem}
               value={maxPrice}
               onChange={setMaxPrice}
+              onKeyUp={onKeyUpHandler}
             />
           </div>
         </div>
@@ -152,19 +171,25 @@ const SearchBar = ({
           <h3 className="text-3xl capitalize">stock status</h3>
           <div className="flex flex-row gap-5">
             <input
-              type="checkbox"
+              type="radio"
               name="stock_status"
               value="true"
               checked={stockStatus.includes("true")}
-              onChange={setStockStatus}
+              onChange={(event) => {
+                setStockStatus(event);
+                onFilterHandler();
+              }}
             />
             <label>available</label>
             <input
-              type="checkbox"
+              type="radio"
               name="stock_status"
               value="false"
               checked={stockStatus.includes("false")}
-              onChange={setStockStatus}
+              onChange={(event) => {
+                setStockStatus(event);
+                onFilterHandler();
+              }}
             />
             <label>unavailable</label>
           </div>
@@ -180,7 +205,7 @@ const SearchBar = ({
             </Button>
             <Button
               onClick={() => onFilterHandler()}
-              className="rounded-lg border-0 bg-purple-500 text-white hover:rounded-lg hover:border-0 hover:bg-purple-900"
+              className="rounded-lg border-0 bg-purple-600 text-white hover:rounded-lg hover:border-0 hover:bg-purple-900"
             >
               Filter
             </Button>

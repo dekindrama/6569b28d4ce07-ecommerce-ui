@@ -16,7 +16,7 @@ const BaseTemplatePublic = ({ children }: { children: any }) => {
       </div>
       <div>
         <Button
-          className="rounded-lg border-0 bg-purple-500 text-white hover:rounded-lg hover:border-0 hover:bg-purple-900"
+          className="rounded-lg border-0 bg-purple-600 text-white hover:rounded-lg hover:border-0 hover:bg-purple-900"
           onClick={() => {
             setShowFilter((value) => !value);
           }}

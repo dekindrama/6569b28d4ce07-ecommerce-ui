@@ -24,7 +24,7 @@ function useInput(defaultValue: any, target: string = "value") {
       if (event == "") {
         return setValue(defaultValue);
       }
-      return setValue(event.target.checked);
+      return setValue((value: any) => event.target.value);
     };
   }
 
