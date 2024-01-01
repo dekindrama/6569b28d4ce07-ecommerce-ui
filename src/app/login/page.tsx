@@ -1,5 +1,6 @@
 "use client";
 
+import BaseTemplate from "@/components/BaseTemplate";
 import BaseTemplatePublic from "@/components/BaseTemplatePublic";
 import LoginInput from "@/components/LoginInput";
 import routes from "@/routes/page";
@@ -67,12 +68,12 @@ const LoginPage = () => {
 
   //* render page
   return (
-    <BaseTemplatePublic>
+    <BaseTemplate>
       <div className="flex min-h-screen w-full flex-col items-center justify-center ">
         <h1 className="font-bold">Login Page</h1>
         <LoginInput onLogin={onLoginHandler} />
       </div>
-    </BaseTemplatePublic>
+    </BaseTemplate>
   );
 };
 

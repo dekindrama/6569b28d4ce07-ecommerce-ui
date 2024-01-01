@@ -22,7 +22,7 @@ const BaseTemplate = ({ children }: any) => {
   if (authUser) {
     if (authUser.role == authUserRolesEnum.superAdmin) {
       nav = (
-        <div className="flex gap-5 overflow-scroll p-5">
+        <>
           <div>
             <Link href={routes.dashboard.register}>Register Admin</Link>
           </div>
@@ -32,7 +32,7 @@ const BaseTemplate = ({ children }: any) => {
           <div>
             <Link href={routes.dashboard.items.index}>Item List</Link>
           </div>
-        </div>
+        </>
       );
     }
   }
@@ -58,7 +58,15 @@ const BaseTemplate = ({ children }: any) => {
           </div>
         )}
       </div>
-      {nav}
+      {authUser && (
+        <div className="flex gap-5 overflow-scroll p-5">
+          <div>
+            <Link href={routes.dashboard.index}>Dashboard</Link>
+          </div>
+          {nav}
+        </div>
+      )}
+
       <LoadingBar />
       {children}
     </div>
