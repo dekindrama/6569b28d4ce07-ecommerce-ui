@@ -1,12 +1,8 @@
 "use client";
 
 import { HiOutlineCheck, HiOutlineX } from "react-icons/hi";
-import BaseTemplate from "@/components/BaseTemplate";
 import Link from "@/components/Link";
-import NextLink from "next/link";
-import { asyncPreloadProcess } from "@/states/isPreload/action";
 import { asyncGetListItems } from "@/states/items/action";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import routes from "@/routes/page";
@@ -14,29 +10,22 @@ import Modal from "@/components/Modal";
 import Button from "@/components/Button";
 import { asyncDeleteItem, asyncGetItem } from "@/states/item/action";
 import Image from "@/components/Image";
+import BaseTemplateDashboard from "@/components/BaseTemplateDashboard";
+import useAuth from "@/hooks/useAuth";
 
 const ItemsPage = () => {
+  console.log("=============================");
+  console.log("hit items page");
+  console.log("=============================");
+
   //* params
-  const router = useRouter();
   const dispatch: any = useDispatch();
-  const authUser = useSelector((states: any) => states.authUser);
-  const isPreload = useSelector((states: any) => states.isPreload);
   const items = useSelector((states: any) => states.items);
   const item = useSelector((states: any) => states.item);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  console.log("=============================");
-  console.log("hit items page");
-  console.log("authUser", authUser);
-  console.log("preload", isPreload);
-
-  //* do preload action
-  useEffect(() => {
-    //* do action preload when preload is false
-    if (isPreload) {
-      dispatch(asyncPreloadProcess());
-    }
-  }, [isPreload]);
+  //* check is auth
+  const { session, status } = useAuth({ required: true });
 
   //* get list item
   useEffect(() => {
@@ -44,7 +33,7 @@ const ItemsPage = () => {
   }, []);
 
   //* return nothing when still preload
-  if (isPreload) return;
+  if (status !== "authenticated") return;
 
   //* get details item
   function onClickDetailHandler(id: string) {
@@ -62,8 +51,6 @@ const ItemsPage = () => {
     setIsOpenModal(isOpen);
     document.body.style.overflow = "scroll";
   }
-
-  //*
 
   //* items component
   let itemsComponent = (
@@ -135,7 +122,7 @@ const ItemsPage = () => {
 
   //* render page
   return (
-    <BaseTemplate>
+    <BaseTemplateDashboard>
       <div className="flex flex-col gap-5 py-10 md:py-20">
         <h1>ItemPage</h1>
         <div>
@@ -211,7 +198,7 @@ const ItemsPage = () => {
           </>
         )}
       </Modal>
-    </BaseTemplate>
+    </BaseTemplateDashboard>
   );
 };
 

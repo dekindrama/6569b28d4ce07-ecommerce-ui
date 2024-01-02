@@ -1,62 +1,22 @@
 "use client";
 
-import BaseTemplate from "@/components/BaseTemplate";
-import BaseTemplatePublic from "@/components/BaseTemplatePublic";
+import BaseTemplateDashboard from "@/components/BaseTemplateDashboard";
 import LoginInput from "@/components/LoginInput";
-import routes from "@/routes/page";
 import { asyncSetAuthUser } from "@/states/authUser/action";
-import { asyncPreloadProcess } from "@/states/isPreload/action";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
 
 const LoginPage = () => {
-  //* params
-  const dispatch: any = useDispatch();
-  const router = useRouter();
-  const authUser = useSelector((states: any) => states.authUser);
-  const isPreload = useSelector((states: any) => states.isPreload);
-
   console.log("=============================");
   console.log("hit login page");
-  console.log("authUser", authUser);
-  console.log("preload", isPreload);
+  console.log("=============================");
 
-  //* do preload action
-  useEffect(() => {
-    console.log("useEffect isPreload");
+  //* params
+  const dispatch: any = useDispatch();
 
-    //* do action preload when preload is false
-    if (isPreload) {
-      dispatch(asyncPreloadProcess());
-      console.log("do preload");
-    } else {
-      console.log("already preload");
-    }
-  });
-
-  //* check user is logged in
-  useEffect(() => {
-    //* waiting preload
-    if (isPreload) {
-      return;
-    }
-
-    //* redirect to index when already login
-    if (authUser) {
-      router.push(routes.dashboard.index);
-    }
-  });
-
-  //* return nothing when still preload
-  if (isPreload) {
-    return;
-  }
-
-  //* return nothing when user is login
-  if (authUser) {
-    return;
-  }
+  //* check is auth
+  const { session, status } = useAuth({ required: true });
 
   //* handle login
   const onLoginHandler = async (params: {
@@ -66,14 +26,17 @@ const LoginPage = () => {
     dispatch(asyncSetAuthUser(params));
   };
 
+  //* return nothing when unauthenticated
+  if (status == "unauthenticated") return;
+
   //* render page
   return (
-    <BaseTemplate>
+    <BaseTemplateDashboard>
       <div className="flex min-h-screen w-full flex-col items-center justify-center ">
         <h1 className="font-bold">Login Page</h1>
         <LoginInput onLogin={onLoginHandler} />
       </div>
-    </BaseTemplate>
+    </BaseTemplateDashboard>
   );
 };
 

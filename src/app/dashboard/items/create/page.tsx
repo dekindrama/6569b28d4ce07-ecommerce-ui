@@ -1,58 +1,36 @@
 "use client";
-import BaseTemplate from "@/components/BaseTemplate";
+import BaseTemplateDashboard from "@/components/BaseTemplateDashboard";
 import CreateItemInput from "@/components/CreateItemInput";
 import authUserRolesEnum from "@/enums/authUserRolesEnum";
-import routes from "@/routes/page";
-import { asyncPreloadProcess } from "@/states/isPreload/action";
+import useAuth from "@/hooks/useAuth";
 import { asyncStoreItem } from "@/states/item/action";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const CreateItemPage = () => {
-  //* params
-  const router = useRouter();
-  const dispatch: any = useDispatch();
-  const authUser = useSelector((states: any) => states.authUser);
-  const isPreload = useSelector((states: any) => states.isPreload);
-
   console.log("=============================");
-  console.log("hit update item page");
-  console.log("authUser", authUser);
-  console.log("preload", isPreload);
+  console.log("hit create item page");
+  console.log("=============================");
 
-  //* do preload action
-  useEffect(() => {
-    //* do action preload when preload is false
-    if (isPreload) {
-      dispatch(asyncPreloadProcess());
-    }
-  }, [isPreload]);
+  //* params
+  const dispatch: any = useDispatch();
 
-  //* check use is logged in
-  useEffect(() => {
-    //* waiting preload
-    if (isPreload) return;
-
-    //* check auth & check role
-    if (authUser) {
-      if (
-        [authUserRolesEnum.admin, authUserRolesEnum.superAdmin].includes(
-          authUser.role,
-        ) == false
-      ) {
-        router.push(routes.error.unauthorized);
-      }
-    } else {
-      router.push(routes.error.unauthenticated);
-    }
-  });
+  //* check is auth
+  const { session, status } = useAuth({ required: true });
 
   //* return nothing when still preload
-  if (isPreload) return;
+  if (status == "unauthenticated") return;
 
   //* return nothing when unauthenticated
-  if (authUser == null) return;
+  if (session?.user == null) return;
+
+  //* return nothing when unauthorized
+  if (
+    [authUserRolesEnum.admin, authUserRolesEnum.superAdmin].includes(
+      session.user.role,
+    ) == false
+  ) {
+    return;
+  }
 
   //* create item handler
   function onCreateHandler(params: {
@@ -67,10 +45,10 @@ const CreateItemPage = () => {
 
   //* render page
   return (
-    <BaseTemplate>
+    <BaseTemplateDashboard>
       <h1>Create Item Page</h1>
       <CreateItemInput onCreate={onCreateHandler} />
-    </BaseTemplate>
+    </BaseTemplateDashboard>
   );
 };
 
