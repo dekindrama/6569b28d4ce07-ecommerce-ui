@@ -2,12 +2,12 @@ const Image = ({
   src,
   alt,
   className,
-  defaultSrc = "",
+  defaultSrc,
 }: {
   src: string;
   alt: string;
   className?: string;
-  defaultSrc?: string | "";
+  defaultSrc?: string;
 }) => {
   return (
     <img

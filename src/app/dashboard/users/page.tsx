@@ -1,39 +1,70 @@
 "use client";
-import BaseTemplateDashboard from "@/components/BaseTemplateDashboard";
+import BaseTemplate from "@/components/BaseTemplate";
 import authUserRolesEnum from "@/enums/authUserRolesEnum";
-import useAuth from "@/hooks/useAuth";
+import routes from "@/routes/page";
+import { asyncPreloadProcess } from "@/states/isPreload/action";
 import { asyncPopulateUsers } from "@/states/users/action";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const UsersPage = () => {
-  console.log("=============================");
-  console.log("hit admin list/users page");
-  console.log("=============================");
-
-  //* params
+  const router = useRouter();
   const dispatch: any = useDispatch();
+  const authUser = useSelector((states: any) => states.authUser);
+  const isPreload = useSelector((states: any) => states.isPreload);
   const users = useSelector((states: any) => states.users);
 
-  //* check is auth
-  const { session, status } = useAuth({ required: true });
+  console.log("=============================");
+  console.log("hit admin list/users page");
+  console.log("authUser", authUser);
+  console.log("preload", isPreload);
+
+  //* do preload action
+  useEffect(() => {
+    if (isPreload) {
+      dispatch(asyncPreloadProcess());
+    }
+  }, []);
+
+  //* check user is logged in
+  useEffect(() => {
+    //* waiting preload
+    if (isPreload) return;
+
+    //* validate authentication
+    if (authUser == null) return;
+
+    //* validate role user
+    if (authUser.role !== authUserRolesEnum.superAdmin) {
+      router.push(routes.error.unauthorized);
+    }
+  }, [isPreload]);
 
   //* populate users list
   useEffect(() => {
+    //* waiting preload
+    if (isPreload) return;
+
     //* validate authentication
-    if (status !== "authenticated") return;
+    if (authUser == null) return;
 
     //* validate role user
-    if (session?.user.role !== authUserRolesEnum.superAdmin) return;
+    if (authUser.role !== authUserRolesEnum.superAdmin) return;
 
     dispatch(asyncPopulateUsers());
-  }, [session?.user]);
+  }, [isPreload, authUser]);
+
+  //* return nothing when still preload
+  if (isPreload) return;
 
   //* return nothing when unauthenticated
-  if (status !== "authenticated") return;
+  if (authUser == null) return;
 
   //* return nothing when login as admin
-  if (session?.user.role !== authUserRolesEnum.superAdmin) return;
+  if (authUser) {
+    if (authUser.role !== authUserRolesEnum.superAdmin) return;
+  }
 
   let usersComponent = (
     <tr>
@@ -56,7 +87,7 @@ const UsersPage = () => {
 
   //* render page
   return (
-    <BaseTemplateDashboard>
+    <BaseTemplate>
       <h1>Admin List</h1>
       <div className="flex items-center justify-center">
         <table className="w-96 bg-red-100 md:w-1/2">
@@ -70,7 +101,7 @@ const UsersPage = () => {
           <tbody>{usersComponent}</tbody>
         </table>
       </div>
-    </BaseTemplateDashboard>
+    </BaseTemplate>
   );
 };
 

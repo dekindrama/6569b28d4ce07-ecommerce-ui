@@ -1,10 +1,10 @@
-"use client";
 import axios from "axios";
 import itemApi from "./itemApi";
+import { config } from "process";
 
 const api = (() => {
   //* config
-  const BASE_URL = "http://127.0.0.1:8000/api";
+  const BASE_URL = "http://localhost:8000/api";
   function configs() {
     return {
       headers: { Authorization: `Bearer ${getAccessToken()}` },

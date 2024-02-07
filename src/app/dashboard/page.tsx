@@ -1,22 +1,63 @@
 "use client";
-import BaseTemplateDashboard from "@/components/BaseTemplateDashboard";
-import useAuth from "@/hooks/useAuth";
+import BaseTemplate from "@/components/BaseTemplate";
+import routes from "@/routes/page";
+import { asyncPreloadProcess } from "@/states/isPreload/action";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function DashboardPage() {
+  //* params
+  const dispatch: any = useDispatch();
+  const router = useRouter();
+  const authUser = useSelector((states: any) => states.authUser);
+  const isPreload = useSelector((states: any) => states.isPreload);
+
   console.log("=============================");
   console.log("hit dashboard page");
-  console.log("=============================");
+  console.log("authUser", authUser);
+  console.log("preload", isPreload);
 
-  //* check is auth
-  const { session, status } = useAuth({ required: true });
+  //* do preload action
+  useEffect(() => {
+    console.log("useEffect isPreload");
+
+    //* do action preload when preload is false
+    if (isPreload) {
+      dispatch(asyncPreloadProcess());
+      console.log("do preload");
+    } else {
+      console.log("already preload");
+    }
+  });
+
+  //* check user is logged in
+  useEffect(() => {
+    //* waiting preload
+    if (isPreload) {
+      return;
+    }
+
+    //* redirect when is null
+    if (authUser == null) {
+      router.push(routes.login);
+    }
+  });
+
+  //* return nothing when still preload
+  if (isPreload) {
+    return;
+  }
 
   //* return nothing when unauthenticated
-  if (status !== "authenticated") return;
+  if (authUser == null) {
+    return;
+  }
 
   //* render page
   return (
-    <BaseTemplateDashboard>
+    <BaseTemplate>
       <h1 className="font-bold">Dashboard Page</h1>
-    </BaseTemplateDashboard>
+    </BaseTemplate>
   );
 }
