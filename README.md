@@ -20,10 +20,6 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Run Backend Project
-
-this project has relation with backend project. make sure to pull and run backend project first before run the ui project. [https://github.com/dekindrama/6569b28d4ce07-ecommerce-api](https://github.com/dekindrama/6569b28d4ce07-ecommerce-api)
-
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
