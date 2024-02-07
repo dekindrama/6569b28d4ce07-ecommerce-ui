@@ -44,20 +44,20 @@ const ItemsSlider = ({ items }: { items: Array<ItemInterface> }) => {
       itemsComponent = (
         <div
           key={item.id}
-          className="group relative h-72 w-full overflow-hidden rounded-2xl bg-blue-100"
+          className="group relative h-96 w-full overflow-hidden bg-blue-100"
         >
           {/* image */}
           <div>
             <Image
               src={item.picture}
               alt={item.name}
-              defaultSrc="https://images.unsplash.com/photo-1634693798046-b00e706c3076?q=80&w=3732&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              className="w-full object-cover object-center"
+              defaultSrc="/no-image.png"
+              className="w-full object-cover object-center h-96"
             />
           </div>
           {/* overlay */}
           <div className=" absolute top-0 h-full w-full">
-            <div className="absolute bottom-5 left-5 flex max-w-[20rem] flex-col gap-3 rounded-2xl bg-white/50 p-2 text-black/50 transition-all group-hover:bg-white group-hover:text-black">
+            <div className="absolute bottom-5 left-5 flex max-w-[20rem] flex-col gap-3 bg-white/50 p-2 text-black/50 transition-all group-hover:bg-white group-hover:text-black">
               <h3 className="truncate text-xl font-bold">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                 Voluptatibus explicabo dolor ab obcaecati voluptatum rem minus

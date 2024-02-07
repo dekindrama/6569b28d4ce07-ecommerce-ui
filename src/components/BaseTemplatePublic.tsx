@@ -10,19 +10,17 @@ const BaseTemplatePublic = ({ children }: { children: any }) => {
   const [showFilter, setShowFilter] = useState(false);
 
   const headerComponent = (
-    <div className="flex w-full justify-between bg-white p-5">
+    <div className="container mx-auto flex w-full justify-between bg-white p-5">
       <div>
         <Logo />
       </div>
       <div>
-        <Button
-          className="rounded-lg border-0 bg-purple-500 text-white hover:rounded-lg hover:border-0 hover:bg-purple-900"
+        <button
+          className="rounded-lg border-0 bg-purple-500 text-white hover:rounded-lg hover:border-0 hover:bg-purple-900 p-2 px-5 transition-all"
           onClick={() => {
             setShowFilter((value) => !value);
           }}
-        >
-          Filter
-        </Button>
+          >Filter</button>
       </div>
     </div>
   );
