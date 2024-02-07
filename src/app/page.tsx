@@ -22,9 +22,7 @@ export default function HomePage() {
 
   //* render cards component
   let itemsComponents = <></>;
-  let itemsCount = 0;
   if (isFilterItems) {
-    itemsCount = filteredItems.length;
     itemsComponents = filteredItems.map((item: ItemInterface) => (
       <Card
         key={item.id}
@@ -33,7 +31,6 @@ export default function HomePage() {
       />
     ));
   } else {
-    itemsCount = items.length;
     itemsComponents = items.map((item: ItemInterface) => (
       <Card
         key={item.id}
@@ -55,8 +52,8 @@ export default function HomePage() {
         <div>
           <h2 className="font-bold capitalize">Products</h2>
           <small className="font-bold">
-            there is <span className="text-purple-600">{itemsCount}</span>{" "}
-            available product
+            there is <span className="text-purple-600">5</span> available
+            product
           </small>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Comfortaa } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
-import AuthProvider from "@/components/AuthProvider";
 
 const comfortaa = Comfortaa({
   weight: ["300", "400", "500", "600", "700"],
@@ -23,11 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="bg-gray-100 transition-all">
-      <AuthProvider>
-        <body className={comfortaa.className}>
-          <Providers>{children}</Providers>
-        </body>
-      </AuthProvider>
+      <body className={comfortaa.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
